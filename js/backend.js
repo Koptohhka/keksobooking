@@ -11,8 +11,6 @@
             } else {
                 onError('Произошла ошибка, просим ваc пойти к чёрту.');
             }
-
-            window.pin.mainPin.removeEventListener('click', window.map.mapActive);
         })
 
         xhr.addEventListener('error', () => {

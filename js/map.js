@@ -1,16 +1,4 @@
 'use strict';
-/// !!!
-
-/*let photosContainer  = document.querySelector('.popup__photos');;
-              let closeBtn = document.createElement('div');
-              closeBtn.style.width = '30px';
-              closeBtn.style.height = '30px';
-              closeBtn.style.position = 'absolute';
-              closeBtn.style.top = '275px';
-              closeBtn.style.left = '190px';
-              closeBtn.style.background = 'black';
-              photosContainer.appendChild(closeBtn);
-              console.log(1);*/ 
 
 ( () => {
 const cardType = {
@@ -59,7 +47,7 @@ let createPinMarkup = (pinStats) => {
           mapCardRemovable.remove();
         }
         map.appendChild(createAd(pinStats));
-        //
+        //поправь!
         let qe = document.querySelector('.popup__photos');
         let q = document.querySelector('.popup__photo');
         window.largePhoto = document.createElement('img');
@@ -68,8 +56,7 @@ let createPinMarkup = (pinStats) => {
         largePhoto.style.width = '200px';
         largePhoto.style.height = '200px';
         qe.appendChild(largePhoto);
-        console.log(largePhoto);
-        //
+        //поправь!
       };
       pinItem.addEventListener('click', onPinItemClick);
 
@@ -78,9 +65,10 @@ let createPinMarkup = (pinStats) => {
 
 let renderPinsMarkup = (pinsStats) => {
     let mapPinsFragment = document.createDocumentFragment();
-    for (let i = 0; i < 9; i++) {
-      mapPinsFragment.appendChild(createPinMarkup(pinsStats[i]));
-    }
+    pinsStats.forEach( (it) => {
+      mapPinsFragment.appendChild(createPinMarkup(it));
+    });
+    
       mapPins.appendChild(mapPinsFragment);
 };
 
@@ -137,16 +125,26 @@ let createAd = (adStats) => {
     return ad;
 };
 
-  let mapActive = () => {
-    map.classList.remove('map--faded');
-    window.backend.load(renderPinsMarkup, window.tools.renderError); //собсна вызов рендеринга, снятия блокировки формы, и другое
-    activateForm();
+let removePinsMarkup = () => {
+    let pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach((it) => {
+      it.remove();
+    });
+}
+
+let mapActive = () => {
+  map.classList.remove('map--faded');
+  window.backend.load(renderPinsMarkup, window.tools.renderError); //собсна вызов рендеринга, снятия блокировки формы, и другое
+  window.backend.load(window.formFilters.getDataArray);
+  activateForm();
 };
 
 deactivateForm();//временно
 
   window.map = {
-    mapActive: mapActive
+    mapActive: mapActive,
+    renderPinsMarkup: renderPinsMarkup,
+    removePinsMarkup: removePinsMarkup
   }
 }) ()
 
